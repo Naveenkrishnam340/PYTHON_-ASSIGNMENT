@@ -1,0 +1,105 @@
+1. Read the Json file and print value for key = crew
+Json file = https://github.com/bhargav-velisetti/flink_examples/blob/master/data/cruise_ship_schema.json
+
+import json
+import requests
+import sys
+import gzip
+import os
+
+def read_json_crew():
+    url = "https://raw.githubusercontent.com/bhargav-velisetti/flink_examples/master/data/cruise_ship_schema.json"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        print("Crew:", data.get("crew", "Key not found"))
+    except (requests.RequestException, json.JSONDecodeError) as e:
+        print("Error fetching or parsing JSON data:", e)
+
+2.
+ import requests
+
+# URL of the JSON file
+url = 'https://raw.githubusercontent.com/bhargav-velisetti/apache_beam_examples_java/master/data/sample-data.json'
+
+# Fetch the JSON file from the URL
+response = requests.get(url)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Load the JSON content
+    data = response.json()
+    
+    # Loop over the data and print the value for the key 'firstName'
+    for entry in data:
+        first_name = entry.get('firstName')
+        if first_name:  # Check if the key 'firstName' exists
+            print(first_name)
+else:
+    print("Failed to retrieve the JSON file.")
+
+3. Print 5th element
+print("5th element:", list_a[4] if len(list_a) > 4 else "Index out of range")
+
+4. Last three elements
+print("Last three elements:", list_a[-3:])
+
+5. Print Len of the list
+print("Length of list:", len(list_a))
+
+6. Print keys of the the dictionary dict_a
+dict_a = {'a': 1, 'b': 2}
+    print("Keys:", list(dict_a.keys()))
+
+7. Print values of the dictionary dict_a
+print("Values:", list(dict_a.values()))
+
+8. Print value of the key = b
+print("Value for key 'b':", dict_a.get('b', "Key not found"))
+
+9. Pass Python Command Line args
+parse_cl_args.py "Hello World !"
+When I run above script , it should print
+Hello
+World
+!
+Ans) import sys
+
+# Get the command line arguments
+args = sys.argv[1:]  # Skip the script name (sys.argv[0])
+
+# Loop through each argument and print it
+for arg in args:
+    print(arg)
+
+10. def download_gh():
+    url = "https://data.gharchive.org/2023-03-01-10.json.gz"
+    file_path = "./2023-03-01-10.json.gz"
+    try:
+        response = requests.get(url, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(file_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        return os.path.abspath(file_path)
+    except requests.RequestException as e:
+        print("Request failed:", e)
+        return None
+
+def test_download_gh():
+    file_path = download_gh()
+    if file_path:
+        assert os.path.exists(file_path), "Download failed, file does not exist."
+        assert file_path.endswith(".json.gz"), "Downloaded file is not in the expected format."
+        print("Test Passed: File successfully downloaded and verified.")
+    else:
+        print("Test Failed: File could not be downloaded.")
+
+if _name_ == "_main_":
+    read_json_crew()
+    read_json_firstname()
+    python_collections()
+    parse_cl_args()
+    test_download_gh()
